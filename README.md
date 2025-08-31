@@ -268,6 +268,20 @@ pre_osdi /home/vsduser/Desktop/asap_7nm_Xschem/bsimcmg.osdi
 
 ```
 
+
+To carry out the simulation, the following command was used:
+
+
+```
+#Open the directory in which the spice file is present
+
+cd asap_7nm_Xschem
+
+#run the spice deck
+
+ngspice inverter_vtc2.spice
+```
+
 We get the following plots for VTC, Id, and delay
 
 <img width="712" height="551" alt="fin=14,14 3" src="https://github.com/user-attachments/assets/cc1565dc-3dbd-4858-a1fe-441db3e31868" />
@@ -277,3 +291,64 @@ We get the following plots for VTC, Id, and delay
 <img width="706" height="547" alt="fin=14,14 5" src="https://github.com/user-attachments/assets/99d3ccbe-ccdb-4dd9-85e4-77cc669d09fb" />
 
 <img width="706" height="550" alt="fin=14,14 6" src="https://github.com/user-attachments/assets/2fc335ea-c256-40ab-b0d7-2874e4b6ab1e" />
+
+## Bandgap Reference Design and Simulation using Xschem
+
+Now, that we have done the performance analysis of the FinFET Inverter, we can implement it into a circuit. We will be implementing a Bandgap Refernece Circuit Dsign using the FinFET inverter. 
+
+The below photo is taken as the reference circuit for designing the Bandgap reference.
+
+<img width="822" height="518" alt="image" src="https://github.com/user-attachments/assets/541a7e5b-ebca-49f8-ac2f-372eef6dbcf7" />
+
+### Steps to implement the circuit in Xschem
+
+1. Open Xschem
+```
+Xschem
+```
+2. Press ``` ctrl + I ``` to ivoke the component list.
+3. Search pfet and nfet and select them indivually and drag them onto the board to create the circuit.
+4. To get multiple nfet of same properties, you can duplicate the nfet/pfet.
+5. Create the circuit
+6. Make connections as given in the schematic.
+7. Search for VDD, GND, source, resistance in the component list and connect them in their respective place.
+8. Add a simulation deck command window
+9. Add the commands to plot various desired graphs.
+
+Code for dc analysis used to plot Vref and VCTAT
+```
+name=s1 only_toplevel=false value="
+.dc temp -45 150 5
+.dc VDD 0 1 0.1
+.control
+pre_osdi /home/vsduser/Desktop/asap_7nm_Xschem/bsimcmg.osdi
+run
+plot v(Vref) v(VCTAT)
+plot v(Vref)-v(VCTAT)
+plot v(VCTAT)
+plot v(Vref)
+let temp_coeff = deriv(v(Vref))/1.24
+plot temp_coeff
+plot net9/30k Vref/33.33k VCTAT/33.33k
+plot abs(v2#branch)
+.endc
+"
+```
+
+Code for transient analysis used to plot the startup time
+```
+name=s1 only_toplevel=false value="
+.tran 0.01p 100p
+.temp -45
+.control
+pre_osdi /home/vsduser/Desktop/asap_7nm_Xschem/bsimcmg.osdi
+run
+
+plot v(VCTAT)
+plot v(Vref)
+
+.endc
+"
+
+
+```
