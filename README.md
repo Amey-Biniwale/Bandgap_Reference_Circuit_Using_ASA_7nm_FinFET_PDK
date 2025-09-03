@@ -34,22 +34,139 @@ FinFETs usually use 22nm or less technology node. In planar structure FETs, ther
 ## 7nm FinFET Inverter Performance Analysis
 In this segment, we will analyze the performance of the 7nm FinFET inverter thriugh metrics Switching Threshold Voltage (VTC), Drain Current (Id), Power Consumption (P), Propagation Delay (tpd), Gain (Av), Noise Margin (NM), Transconductance (gm), Frequency (f). We will be using xschem software to analyze the spice file of the structure. To analyze it efficiently, we will be analyzing the structure for various W/L ratio. For unique and traceable simulation, we will be adding a dummy voltage in the spice deck. 
 
-To add the dummy voltage, I used the following command
+The spice file of the fin_fet used in the inverter is given as
 ```
+** sch_path: /home/hprcse/Finfet/nfet_char.sch
+**.subckt nfet_char
+V1 nfet_in GND 0
+V2 vdd GND 3
 Vuniq in 0 DC 0.428
+R1 vdd nfet_out 1k m=1
+Xnfet2 nfet_out nfet_in GND GND asap_7nm_nfet l=7e-009 nfin=14
+**** begin user architecture code
+
+
+.dc v1 0 0.7 1m v2 0 0.7 0.2
+.control
+run
+set xbrushwidth=3
+let vd = vdd - nfet_out
+let id  = vd/1000
+plot id
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+**** begin user architecture code
+
+.subckt asap_7nm_nfet S G D B l=7e-009 nfin=14
+	nnmos_finfet S G D B BSIMCMG_osdi_N l=7e-009 nfin=14
+.ends asap_7nm_nfet
+
+.model BSIMCMG_osdi_N BSIMCMG_va (
++ TYPE = 1
+************************************************************
+*                         general                          *
+************************************************************
++version = 107             bulkmod = 1               igcmod  = 1               igbmod  = 0
++gidlmod = 1               iimod   = 0               geomod  = 1               rdsmod  = 0
++rgatemod= 0               rgeomod = 0               shmod   = 0               nqsmod  = 0
++coremod = 0               cgeomod = 0               capmod  = 0               tnom    = 25
++eot     = 1e-009          eotbox  = 1.4e-007        eotacc  = 1e-010          tfin    = 6.5e-009
++toxp    = 2.1e-009        nbody   = 1e+022          phig    = 4.2466          epsrox  = 3.9
++epsrsub = 11.9            easub   = 4.05            ni0sub  = 1.1e+016        bg0sub  = 1.17
++nc0sub  = 2.86e+025       nsd     = 2e+026          ngate   = 0               nseg    = 5
++l       = 2.1e-008        xl      = 1e-009          lint    = -2e-009         dlc     = 0
++dlbin   = 0               hfin    = 3.2e-008        deltaw  = 0               deltawcv= 0
++sdterm  = 0               epsrsp  = 3.9             nfin    = 1
++toxg    = 1.80e-009
+************************************************************
+*                            dc                            *
+************************************************************
++cit     = 0               cdsc    = 0.01            cdscd   = 0.01            dvt0    = 0.05
++dvt1    = 0.47            phin    = 0.05            eta0    = 0.07            dsub    = 0.35
++k1rsce  = 0               lpe0    = 0               dvtshift= 0               qmfactor= 2.5
++etaqm   = 0.54            qm0     = 0.001           pqm     = 0.66            u0      = 0.0303
++etamob  = 2               up      = 0               ua      = 0.55            eu      = 1.2
++ud      = 0               ucs     = 1               rdswmin = 0               rdsw    = 200
++wr      = 1               rswmin  = 0               rdwmin  = 0               rshs    = 0
++rshd    = 0               vsat    = 70000           deltavsat= 0.2             ksativ  = 2
++mexp    = 4               ptwg    = 30              pclm    = 0.05            pclmg   = 0
++pdibl1  = 0               pdibl2  = 0.002           drout   = 1               pvag    = 0
++fpitch  = 2.7e-008        rth0    = 0.225           cth0    = 1.243e-006      wth0    = 2.6e-007
++lcdscd  = 5e-005          lcdscdr = 5e-005          lrdsw   = 0.2             lvsat   = 0
+************************************************************
+*                         leakage                          *
+************************************************************
++aigc    = 0.014           bigc    = 0.005           cigc    = 0.25            dlcigs  = 1e-009
++dlcigd  = 1e-009          aigs    = 0.0115          aigd    = 0.0115          bigs    = 0.00332
++bigd    = 0.00332         cigs    = 0.35            cigd    = 0.35            poxedge = 1.1
++agidl   = 1e-012          agisl   = 1e-012          bgidl   = 10000000        bgisl   = 10000000
++egidl   = 0.35            egisl   = 0.35
+************************************************************
+*                            rf                            *
+************************************************************
+************************************************************
+*                         junction                         *
+************************************************************
+************************************************************
+*                       capacitance                        *
+************************************************************
++cfs     = 0               cfd     = 0               cgso    = 1.6e-010        cgdo    = 1.6e-010
++cgsl    = 0               cgdl    = 0               ckappas = 0.6             ckappad = 0.6
++cgbo    = 0               cgbl    = 0
+************************************************************
+*                       temperature                        *
+************************************************************
++tbgasub = 0.000473        tbgbsub = 636             kt1     = 0               kt1l    = 0
++ute     = -0.7            utl     = 0               ua1     = 0.001032        ud1     = 0
++ucste   = -0.004775       at      = 0.001           ptwgt   = 0.004           tmexp   = 0
++prt     = 0               tgidl   = -0.007          igt     = 2.5
+************************************************************
+*                          noise                           *
+************************************************************
+**)
+.control
+pre_osdi /home/vsduser/Desktop/asap_7nm_Xschem/bsimcmg.osdi
+.endc
+
+
+**** end user architecture code
+.end
+
 ```
-The dummy voltage value is derived from adding the ASCII values of my name (amey = 97 + 109 + 101 + 121 = 428)
+
+The transfer characterisitics and the output characteristics of the fin_fet are given below
+
+Transfer Characteristics
+
+<img width="704" height="552" alt="image" src="https://github.com/user-attachments/assets/8dfdad8d-b2fe-46b4-8d3e-7e13f5e6f3dd" />
+
+Output Characteristics
+
+<img width="702" height="548" alt="image" src="https://github.com/user-attachments/assets/c8730aaa-f249-4ccc-a6bd-1457e40c1f1b" />
+
+Now that we have analyzed the nfet, we can move on to the analysis of inverter circuit using the finfet. WE will be using offset in the pulse voltage to obtain unique results.
+
+The offset voltage value is derived from adding the ASCII values of my name (amey = 97 + 109 + 101 + 121 = 428)
+To add the offset voltage, we will use the following command,
+```
+V1 nfet_in GND pulse(0.428 1.128 20p 10p 10p 20p 500p 1)
+```
+
 
 The spice deck used for the inverter analysis is given below:
 ```
 
-** sch_path: /home/maddy/asap_7nm_Xschem/inverter_vtc.sch
+** sch_path: /home/vsduser/Desktop/asap_7nm_Xschem/inverter_vtc2.sch
 **.subckt inverter_vtc
 Xpfet1 nfet_out nfet_in vdd vdd asap_7nm_pfet l=7e-009 nfin=14
 Xnfet1 nfet_out nfet_in GND GND asap_7nm_nfet l=7e-009 nfin=14
-V1 nfet_in GND pulse(0 0.7 20p 10p 10p 20p 500p 1)
+V1 nfet_in GND pulse(0.428 1.128 20p 10p 10p 20p 500p 1)
 V2 vdd GND 0.7
-Vuniq in 0 DC 0.428
+
 **** begin user architecture code
 
 
@@ -58,7 +175,7 @@ Vuniq in 0 DC 0.428
 
 .control
     * First run DC
-    dc v1 0 0.7 1m
+    dc v1 0.428 1.128 1m
     run
 
     * DC measurements
@@ -87,9 +204,12 @@ Vuniq in 0 DC 0.428
     plot id
     
     * Transient measurements
-    tran 1e-12 100e-12
-    meas tran tpr when nfet_in = 0.35 rise = 1
-    meas tran tpf when nfet_out = 0.35 fall = 1
+    tran 1p 100p
+    meas tran tpr when nfet_in = 0.778 rise = 1
+    meas tran tpf when nfet_out = 0.035 fall = 1
+    plot tpr
+    plot tpf
+    plot v(nfet_in) v(nfet_out)
     let tp = (tpr + tpf) / 2
     let trans_current = v2#branch
     meas tran id_pwr integ trans_current from=2e-11 to=6e-11
@@ -97,9 +217,9 @@ Vuniq in 0 DC 0.428
     let power = abs(pwr / 40e-12)
     print tpr tpf tp id_pwr pwr power
   
-    tran 0.1 100p                         
-    meas tran tr when nfet_in=0.07 RISE=1  
-    meas tran tf when nfet_out=0.63 FALL=1 
+    tran 1p 100p                         
+    meas tran tr when nfet_in=0.498 RISE=1  
+    meas tran tf when nfet_out=0.071 FALL=1 
     let t_delay = tr + tf                  
     print t_delay                         
     let f = 1/t_delay                     
@@ -265,7 +385,6 @@ pre_osdi /home/vsduser/Desktop/asap_7nm_Xschem/bsimcmg.osdi
 
 **** end user architecture code
 .end
-
 ```
 
 
@@ -284,13 +403,33 @@ ngspice inverter_vtc2.spice
 
 We get the following plots for VTC, Id, and delay
 
-<img width="712" height="551" alt="fin=14,14 3" src="https://github.com/user-attachments/assets/cc1565dc-3dbd-4858-a1fe-441db3e31868" />
+Drain Current
 
-<img width="706" height="550" alt="fin=14,14 4" src="https://github.com/user-attachments/assets/47c156b4-2773-45f4-9935-55a8001a8d7d" />
+<img width="704" height="546" alt="1" src="https://github.com/user-attachments/assets/bdc74307-b313-4f9f-825a-0497976ffa70" />
 
-<img width="706" height="547" alt="fin=14,14 5" src="https://github.com/user-attachments/assets/99d3ccbe-ccdb-4dd9-85e4-77cc669d09fb" />
+Output Resistance
 
-<img width="706" height="550" alt="fin=14,14 6" src="https://github.com/user-attachments/assets/2fc335ea-c256-40ab-b0d7-2874e4b6ab1e" />
+<img width="706" height="550" alt="2" src="https://github.com/user-attachments/assets/174aac79-f4ce-42d8-8a9b-338b4c454019" />
+
+Transconductance
+
+<img width="707" height="546" alt="3" src="https://github.com/user-attachments/assets/b1c9a9c4-ada6-41c8-81b4-fe30d160d35f" />
+
+Voltage Transfer Characteristics
+
+<img width="703" height="544" alt="4" src="https://github.com/user-attachments/assets/df062243-6a1e-4e76-8f5f-a344412e043d" />
+
+To analyze the performance at different W/L ratios, we need to create a characterization table
+To change the W/L ratio, we need to change the nfin value in the following commands
+```
+Xpfet1 nfet_out nfet_in vdd vdd asap_7nm_pfet l=7e-009 nfin=14
+
+asap_7nm_pfet S G D B l=7e-009 nfin=nfin
+npmos_finfet S G D B BSIMCMG_osdi_P l=7e-009 nfin=nfin
+```
+
+<img width="753" height="177" alt="image" src="https://github.com/user-attachments/assets/72737c81-e350-451a-be99-c8b0e947b6b2" />
+
 
 ## Bandgap Reference Design and Simulation using Xschem
 
