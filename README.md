@@ -419,6 +419,13 @@ Voltage Transfer Characteristics
 
 <img width="703" height="544" alt="4" src="https://github.com/user-attachments/assets/df062243-6a1e-4e76-8f5f-a344412e043d" />
 
+The parameter outputs for W/L = 2
+
+<img width="556" height="398" alt="5" src="https://github.com/user-attachments/assets/72d33f1a-262b-4dc8-8d2d-2d6139b11a57" />
+
+<img width="772" height="820" alt="6" src="https://github.com/user-attachments/assets/57d404f6-076d-4994-98f0-e3f13ef2058e" />
+
+
 To analyze the performance at different W/L ratios, we need to create a characterization table
 To change the W/L ratio, we need to change the nfin value in the following commands
 ```
