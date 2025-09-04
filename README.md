@@ -461,6 +461,11 @@ Xschem
 8. Add a simulation deck command window
 9. Add the commands to plot various desired graphs.
 
+
+The Xschem sxhematic created is given below
+
+<img width="1919" height="921" alt="schematic" src="https://github.com/user-attachments/assets/6497f20c-e8aa-47d7-9703-b2927867d784" />
+
 Code for dc analysis used to plot Vref and VCTAT
 ```
 name=s1 only_toplevel=false value="
@@ -711,3 +716,48 @@ pre_osdi /home/hprcse/Documents/test/bsimcmg.osdi
 
 
 ```
+
+Using the dc analysis code, you get the following graphs,
+
+Temperature Coefficient Graph
+
+<img width="706" height="552" alt="Screenshot 2025-09-04 094000" src="https://github.com/user-attachments/assets/1e41999c-15a9-4578-bce9-77d748db20b9" />
+
+Reference Voltage Graph
+
+<img width="704" height="547" alt="Screenshot 2025-09-04 094017" src="https://github.com/user-attachments/assets/33d654cb-b100-482a-a571-332b979f7ec8" />
+
+Voltage Complimentary to Absolute Temperature Graph
+
+<img width="707" height="550" alt="Screenshot 2025-09-04 094037" src="https://github.com/user-attachments/assets/301f92b6-7271-4ef3-8df7-ab515b200722" />
+
+Vref - Vctat
+
+<img width="706" height="551" alt="Screenshot 2025-09-04 094056" src="https://github.com/user-attachments/assets/daf49098-796b-4c64-8d09-10ff81feb041" />
+
+Vref Vctat in same sweep
+
+<img width="706" height="547" alt="Screenshot 2025-09-04 094114" src="https://github.com/user-attachments/assets/1184a746-2ad9-4d56-8f7a-f253d7656dae" />
+
+
+Executing the transient analysis, you get the following graph for startup time
+
+# PUT PHOTO OF TRANSIENT ANALYSIS
+
+We have analyzed the startup time, refernce voltage and Line Regression and created a characterization table
+
+# PUT COMPLETED CHARACTERISATION TABLE
+
+## Conclusion
+
+In this workshop, we learned how to analyze the performance parameters of 7nm Fin_FET. We used ASAP 7nm Fin_FET pdk for the simulations. We also learnt how to design a Bandgap Reference Circuit using the 7nm pfet and nfet in Xschem. We learnt how to generate a spice file for a circuit and how to analyze the spice file using ngspice. We also analyzed the startup time, reference voltage of the BAndgap REference Circuit.
+
+# Acknowledgements and References
+
+Kunal Ghosh, VSD Corp Pvt. Ltd. (Co-Founder) [LinkedIn](https://www.linkedin.com/in/kunal-ghosh-vlsisystemdesign-com-28084836/)
+
+Soundarya Madhuri Royyuru, [GitHub](https://github.com/RSMadhuri66)
+
+GitHub, [avsdbgr_7nm](https://github.com/RSMadhuri66/avsdbgr_7nm?tab=readme-ov-file)
+
+GitHub, [Bandgap-Reference-Circuit-with-SCMB-with-ASAP-7nm-PDK-](https://github.com/RSMadhuri66/Bandgap-Reference-Circuit-with-SCMB-with-ASAP-7nm-PDK-)
