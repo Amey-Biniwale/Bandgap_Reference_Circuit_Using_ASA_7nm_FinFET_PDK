@@ -742,11 +742,13 @@ Vref Vctat in same sweep
 
 Executing the transient analysis, you get the following graph for startup time
 
-# PUT PHOTO OF TRANSIENT ANALYSIS
+<img width="1850" height="904" alt="Screenshot 2025-09-04 222251" src="https://github.com/user-attachments/assets/e1524544-331f-459e-8165-28a00a238261" />
+
 
 We have analyzed the startup time, refernce voltage and Line Regression and created a characterization table
 
-# PUT COMPLETED CHARACTERISATION TABLE
+<img width="835" height="211" alt="image" src="https://github.com/user-attachments/assets/3f4cf2e4-eb9b-4abb-a9c6-e59879b1ec1d" />
+
 
 ## Conclusion
 
