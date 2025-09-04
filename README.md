@@ -440,6 +440,8 @@ npmos_finfet S G D B BSIMCMG_osdi_P l=7e-009 nfin=nfin
 
 ## Bandgap Reference Design and Simulation using Xschem
 
+A Bandgap Reference Circuit is one of the most widely used circuits in analog and mixed-signal design. Its main purpose is to generate a temperature-independent reference voltage (typically around 1.2 V), which remains stable over variations in temperature, supply voltage, and process parameters.
+
 Now, that we have done the performance analysis of the FinFET Inverter, we can implement it into a circuit. We will be implementing a Bandgap Refernece Circuit Dsign using the FinFET inverter. 
 
 The below photo is taken as the reference circuit for designing the Bandgap reference.
