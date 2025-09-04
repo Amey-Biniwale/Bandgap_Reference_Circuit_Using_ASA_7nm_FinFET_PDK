@@ -490,18 +490,17 @@ plot abs(v2#branch)
 
 Code for transient analysis used to plot the startup time
 ```
-name=s1 only_toplevel=false value="
-.tran 0.01p 100p
-.temp -45
+.tran 10u 2m uic
+.temp -40
 .control
 pre_osdi /home/vsduser/Desktop/asap_7nm_Xschem/bsimcmg.osdi
 run
 
+meas tran vref_final FIND v(vref) AT=1.99m
+meas tran t_99 WHEN v(vref)=0.99*vref_final FALL=1
+print t_99
 plot v(VCTAT)
 plot v(Vref)
-
-.endc
-"
 
 
 ```
